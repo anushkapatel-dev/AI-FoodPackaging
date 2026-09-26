@@ -1,12 +1,6 @@
-# =====================================================================
-# Render Blueprint Specification (render.yaml)
-# Project: Food Packaging AI Decision Support System (SIH 26236)
-# =====================================================================
-
 services:
-  # -------------------------------------------------------------------
-  # 1. FastAPI Backend Web Service
-  # -------------------------------------------------------------------
+
+  # 1. FastAPI Backend
   - type: web
     name: food-packaging-ai-backend
     runtime: python
@@ -20,11 +14,10 @@ services:
       - key: CORS_ORIGINS
         sync: false
 
-  # -------------------------------------------------------------------
-  # 2. React / Vite Frontend Static Site
-  # -------------------------------------------------------------------
-  - type: static
+  # 2. React / Vite Frontend
+  - type: web
     name: food-packaging-ai-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
