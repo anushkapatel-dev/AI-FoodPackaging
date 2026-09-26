@@ -2,8 +2,9 @@ import axios from 'axios';
 
 /**
  * Resolve the backend API base URL dynamically.
- * - In local development (Vite dev server), falls back to '/api' which is proxied to http://127.0.0.1:8000.
- * - In production (Render Static Site), uses VITE_API_BASE_URL (e.g. https://food-packaging-ai-backend.onrender.com).
+ * - In Vercel unified deployment: defaults to relative '/api' (same-origin requests).
+ * - In local development: defaults to '/api' which is proxied by Vite to http://127.0.0.1:8000.
+ * - In multi-host deployment (e.g. Render/separate domains): uses VITE_API_BASE_URL.
  * - Also supports window.PACKAI_API_BASE_URL for runtime browser overrides.
  * Automatically normalizes paths so whether a trailing slash or '/api' is provided, it resolves cleanly.
  */

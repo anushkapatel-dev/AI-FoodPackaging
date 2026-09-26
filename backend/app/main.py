@@ -19,10 +19,9 @@ SCIENTIFIC_DISCLAIMER = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: create SQLite tables and seed data if not present
-    Base.metadata.create_all(bind=engine)
-    with Session(engine) as db:
-        seed_database(db)
+    # Startup: ensure SQLite tables and seed catalog data are present
+    from app.database import init_db
+    init_db()
     yield
     # Shutdown logic (if any)
 
@@ -54,7 +53,7 @@ else:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"] if is_wildcard else allowed_origins,
-    allow_origin_regex=r"https://.*\.onrender\.com" if not is_wildcard else None,
+    allow_origin_regex=r"https://.*\.onrender\.com|https://.*\.vercel\.app" if not is_wildcard else None,
     allow_credentials=not is_wildcard,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -85,6 +84,7 @@ def health_check(db: Session = Depends(get_db)):
     )
 
 @app.get("/", tags=["Root"])
+@app.get("/api", tags=["Root"])
 def root():
     return {
         "message": "Welcome to SIH 26236 Food Packaging Recommendation API",
