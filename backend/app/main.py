@@ -66,6 +66,7 @@ app.include_router(sources.router)
 app.include_router(recommendation.router)
 
 @app.get("/api/health", response_model=HealthResponse, tags=["Health"])
+@app.get("/health", response_model=HealthResponse, tags=["Health"])
 def health_check(db: Session = Depends(get_db)):
     """Check API and database health status."""
     # Test DB query
